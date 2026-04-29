@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: ai-mock-interview
+    env: docker
+    buildCommand: mvn clean package -DskipTests
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:mysql://YOUR_RAILWAY_HOST:PORT/railway
+      - key: SPRING_DATASOURCE_USERNAME
+        value: root
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: YOUR_RAILWAY_PASSWORD
+      - key: APP_JWT_SECRET
+        value: 3f4a8b2e1c9d7f6a0b5e3c8d2f1a4b7e9c0d3f6a8b2e5c1d4f7a0b3e6c9d2f5
+      - key: APP_JWT_EXPIRATION
+        value: 86400000
+      - key: GROQ_API_KEY
+        value: GROQ_API_KEY
