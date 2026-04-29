@@ -78,7 +78,8 @@ public class SecurityConfig {
         // Allow React dev server
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "http://localhost:3000"
+                "http://localhost:3000",
+                "https://ai-mock-interview-frontend.vercel.app"
         ));
 
         // Allow all HTTP methods
@@ -127,6 +128,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 }
