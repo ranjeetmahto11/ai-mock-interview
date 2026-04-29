@@ -16,7 +16,7 @@ services:
       - key: APP_JWT_EXPIRATION
         value: 86400000
       - key: GROQ_API_KEY
-        value: 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
+        value: false
 
       - key: SPRING_JPA_HIBERNATE_DDL_AUTO
         value: update
