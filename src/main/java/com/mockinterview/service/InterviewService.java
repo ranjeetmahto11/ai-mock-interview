@@ -103,14 +103,19 @@ public class InterviewService {
     public AnswerFeedbackResponse submitAnswer(SubmitAnswerRequest request) {
 
         // Get interview and question
-        Interview interview = interviewRepository.findById(request.getInterviewId())
-                .orElseThrow(() -> new RuntimeException("Interview not found"));
+        Interview interview = interviewRepository
+                .findById(request.getInterviewId())
+                .orElseThrow(() ->
+                        new RuntimeException("Interview not found"));
 
-        Question question = questionRepository.findById(request.getQuestionId())
-                .orElseThrow(() -> new RuntimeException("Question not found"));
+        Question question = questionRepository
+                .findById(request.getQuestionId())
+                .orElseThrow(() ->
+                        new RuntimeException("Question not found"));
 
         // Get AI evaluation
-        log.info("Evaluating answer for question: {}", question.getQuestionText());
+        log.info("Evaluating answer for question: {}",
+                question.getQuestionText());
 
         Map<String, String> evaluation = groqAiService.evaluateAnswer(
                 question.getQuestionText(),
@@ -122,13 +127,15 @@ public class InterviewService {
         Answer answer = Answer.builder()
                 .question(question)
                 .answerText(request.getAnswerText())
-                .score(Integer.parseInt(evaluation.get("score")))
-                .aiFeedback(evaluation.get("feedback"))
-                .strengths(evaluation.get("strengths"))
-                .improvements(evaluation.get("improvements"))
+                .score(Integer.parseInt(evaluation.getOrDefault("score", "5")))
+                .aiFeedback(evaluation.getOrDefault("feedback", ""))
+                .strengths(evaluation.getOrDefault("strengths", ""))
+                .improvements(evaluation.getOrDefault("improvements", ""))
                 .build();
 
         answerRepository.save(answer);
+
+        answerRepository.flush();
 
         // Check if this was the last question
         List<Question> allQuestions = questionRepository
@@ -138,19 +145,36 @@ public class InterviewService {
                 .filter(q -> q.getAnswer() != null)
                 .count();
 
-        // +1 because current answer just saved but not yet reflected
+        log.info("Answered: {} / Total: {}",
+                answeredCount, interview.getTotalQuestions());
+
+        // ── Fix: check if last question ──
         boolean isLastQuestion =
-                (answeredCount + 1) >= interview.getTotalQuestions();
+                answeredCount >= interview.getTotalQuestions();
 
         Double overallScore = null;
 
         if (isLastQuestion) {
-            // Calculate overall score
-            overallScore = calculateOverallScore(interview.getId());
+            // ── Fix: calculate score from DB directly ──
+            overallScore = allQuestions.stream()
+                    .filter(q -> q.getAnswer() != null)
+                    .mapToInt(q -> q.getAnswer().getScore())
+                    .average()
+                    .orElse(0.0);
+
+            // Round to 1 decimal
+            overallScore = Math.round(overallScore * 10.0) / 10.0;
+
+            log.info("Overall score calculated: {}", overallScore);
+
+            // Update interview
             interview.setOverallScore(overallScore);
             interview.setStatus(InterviewStatus.COMPLETED);
             interview.setCompletedAt(LocalDateTime.now());
             interviewRepository.save(interview);
+
+            log.info("Interview {} marked as COMPLETED",
+                    interview.getId());
         }
 
         return AnswerFeedbackResponse.builder()
