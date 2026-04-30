@@ -78,8 +78,8 @@ public class SecurityConfig {
         // Allow React dev server
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "http://localhost:3000",
-                "https://ai-mock-interview-frontend.vercel.app"
+               // "http://localhost:3000",
+                "https://ai-mock-interview-frontend-black.vercel.app"
         ));
 
         // Allow all HTTP methods
