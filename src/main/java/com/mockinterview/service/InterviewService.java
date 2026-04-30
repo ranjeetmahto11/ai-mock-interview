@@ -100,7 +100,8 @@ public class InterviewService {
     // Submit answer and get AI feedback
     // ─────────────────────────────────────────
     @Transactional
-    public AnswerFeedbackResponse submitAnswer(SubmitAnswerRequest request) {
+    public AnswerFeedbackResponse submitAnswer(
+            SubmitAnswerRequest request) {
 
         // Get interview and question
         Interview interview = interviewRepository
@@ -138,12 +139,11 @@ public class InterviewService {
         answerRepository.flush();
 
         // Check if this was the last question
-        List<Question> allQuestions = questionRepository
-                .findByInterviewIdOrderByQuestionOrder(interview.getId());
+      //  List<Question> allQuestions = questionRepository
+        //        .findByInterviewIdOrderByQuestionOrder(interview.getId());
 
-        long answeredCount = allQuestions.stream()
-                .filter(q -> q.getAnswer() != null)
-                .count();
+        Long answeredCount = answerRepository
+                .countByQuestionInterviewId(interview.getId());
 
         log.info("Answered: {} / Total: {}",
                 answeredCount, interview.getTotalQuestions());
@@ -155,25 +155,22 @@ public class InterviewService {
         Double overallScore = null;
 
         if (isLastQuestion) {
-            // ── Fix: calculate score from DB directly ──
-            overallScore = allQuestions.stream()
-                    .filter(q -> q.getAnswer() != null)
-                    .mapToInt(q -> q.getAnswer().getScore())
-                    .average()
-                    .orElse(0.0);
+            // Get average score directly from DB
+            Double avgScore = answerRepository
+                    .getAverageScoreByInterviewId(interview.getId());
 
-            // Round to 1 decimal
-            overallScore = Math.round(overallScore * 10.0) / 10.0;
+            overallScore = avgScore != null
+                    ? Math.round(avgScore * 10.0) / 10.0
+                    : 0.0;
 
-            log.info("Overall score calculated: {}", overallScore);
+            log.info("Overall score: {}", overallScore);
 
-            // Update interview
             interview.setOverallScore(overallScore);
             interview.setStatus(InterviewStatus.COMPLETED);
             interview.setCompletedAt(LocalDateTime.now());
             interviewRepository.save(interview);
 
-            log.info("Interview {} marked as COMPLETED",
+            log.info("Interview {} marked COMPLETED",
                     interview.getId());
         }
 
