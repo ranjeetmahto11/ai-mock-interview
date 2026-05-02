@@ -1,7 +1,7 @@
-# 🎯 AI Mock Interview System
+# 🎯 AI Mock Interview System — Backend
 
-An AI-powered full-stack mock interview platform built with
-Java Spring Boot and React.
+A full-stack AI-powered mock interview platform backend
+built with Java Spring Boot 4.
 
 ## 🔗 Live Demo
 👉 **[Try the App](https://ai-mock-interview-frontend-black.vercel.app)**
@@ -18,10 +18,11 @@ Java Spring Boot and React.
 
 - 🔐 JWT Authentication (Register & Login)
 - 🤖 AI Question Generation (Groq + LLaMA 3.3)
-- 🎤 Voice Input (Web Speech API)
+- 🎤 Voice Input Support
 - 📊 AI Answer Evaluation with Score & Feedback
 - 📈 Progress Dashboard with Score Analytics
 - 📋 Interview History with Detailed Breakdown
+- 📄 Resume Analysis — upload resume get AI feedback
 - 🎯 Categories: Technical, HR, Behavioral, System Design
 - ⚡ Difficulty Levels: Easy, Medium, Hard
 
@@ -29,35 +30,20 @@ Java Spring Boot and React.
 
 ## 🛠️ Tech Stack
 
-### Backend
 | Technology | Purpose |
 |---|---|
 | Java 21 | Programming Language |
 | Spring Boot 4 | Backend Framework |
-| Spring Security | Authentication |
+| Spring Security 7 | Authentication |
 | JWT | Token-based Auth |
 | Spring Data JPA | Database ORM |
 | MySQL | Database |
-| Groq AI API | AI Integration |
+| Groq AI (LLaMA 3.3) | AI Integration |
+| Apache PDFBox | PDF Text Extraction |
+| Apache POI | Word Doc Extraction |
 | Docker | Containerization |
-
-### Frontend
-| Technology | Purpose |
-|---|---|
-| React 18 | UI Framework |
-| Vite | Build Tool |
-| Tailwind CSS | Styling |
-| Axios | HTTP Client |
-| React Router | Navigation |
-| Web Speech API | Voice Input |
-
-### Deployment
-| Service | Purpose |
-|---|---|
-| Render | Backend Hosting |
-| Railway | MySQL Database |
-| Vercel | Frontend Hosting |
-| GitHub | Version Control |
+| Render | Deployment |
+| Railway | MySQL Hosting |
 
 ---
 
@@ -67,37 +53,24 @@ Java Spring Boot and React.
 - Java 21
 - Maven
 - MySQL
-- Node.js 18+
 - Groq API Key (free at https://console.groq.com)
 
-### Backend Setup
+### Setup
 ```bash
 # Clone repo
 git clone https://github.com/ranjeetmahto11/ai-mock-interview.git
 cd ai-mock-interview
 
-# Configure database
-# Create MySQL database: ai_mock_interview
-# Update src/main/resources/application.properties
+# Create MySQL database
+CREATE DATABASE ai_mock_interview;
+
+# Configure application.properties
+cp src/main/resources/application-example.properties \
+   src/main/resources/application.properties
+# Fill in your values
 
 # Run
 mvn spring-boot:run
-```
-
-### Frontend Setup
-```bash
-# Clone repo
-git clone https://github.com/ranjeetmahto11/ai-mock-interview-frontend.git
-cd ai-mock-interview-frontend
-
-# Install dependencies
-npm install
-
-# Create .env file
-echo "VITE_API_URL=http://localhost:8080/api" > .env
-
-# Run
-npm run dev
 ```
 
 ---
@@ -107,14 +80,14 @@ npm run dev
 ### Auth
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/api/auth/register` | Register new user |
+| POST | `/api/auth/register` | Register user |
 | POST | `/api/auth/login` | Login user |
 
 ### Interviews
 | Method | Endpoint | Description |
 |---|---|---|
 | POST | `/api/interviews/start` | Start interview |
-| POST | `/api/interviews/submit-answer` | Submit & evaluate answer |
+| POST | `/api/interviews/submit-answer` | Submit & evaluate |
 | GET | `/api/interviews/my-interviews` | Get history |
 | GET | `/api/interviews/{id}` | Get details |
 
@@ -123,8 +96,27 @@ npm run dev
 |---|---|---|
 | GET | `/api/users/profile` | Get profile |
 | PUT | `/api/users/profile` | Update profile |
-| GET | `/api/users/dashboard` | Get dashboard stats |
+| GET | `/api/users/dashboard` | Dashboard stats |
+
+### Resume
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/resume/analyze` | Analyze resume |
 
 ---
 
 ## 🗄️ Database Schema
+
+users        → id, fullName, email, password, role
+interviews   → id, userId, targetRole, category, status
+questions    → id, interviewId, questionText, questionOrder
+answers      → id, questionId, answerText, score, aiFeedback
+
+
+
+## 👨‍💻 Author
+
+**Ranjeet**
+- GitHub: [@ranjeetmahto11](https://github.com/ranjeetmahto11)
+
+---
