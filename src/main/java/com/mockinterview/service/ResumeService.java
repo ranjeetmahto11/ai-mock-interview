@@ -64,6 +64,26 @@ public class ResumeService {
         );
         response.setInterviewId(interviewId);
 
+        // ← Fetch real questions with real IDs from DB
+        List<com.mockinterview.entity.Question> dbQuestions =
+                questionRepository
+                        .findByInterviewIdOrderByQuestionOrder(
+                                interviewId);
+
+        List<com.mockinterview.dto.response.QuestionResponse>
+                questionResponses = dbQuestions.stream()
+                .map(q -> com.mockinterview.dto.response
+                        .QuestionResponse.builder()
+                        .questionId(q.getId())
+                        .questionText(q.getQuestionText())
+                        .questionOrder(q.getQuestionOrder())
+                        .totalQuestions(
+                                response.getInterviewQuestions().size())
+                        .build())
+                .toList();
+
+        response.setQuestions(questionResponses);
+
         return response;
     }
 
@@ -216,13 +236,14 @@ public class ResumeService {
         interview = interviewRepository.save(interview);
 
         // Save questions
+        List<Question> savedQuestions = new ArrayList<>();
         for (int i = 0; i < generatedQuestions.size(); i++) {
             Question question = Question.builder()
                     .interview(interview)
                     .questionText(generatedQuestions.get(i))
                     .questionOrder(i + 1)
                     .build();
-            questionRepository.save(question);
+            savedQuestions.add(questionRepository.save(question));
         }
 
         log.info("Created interview {} from resume " +

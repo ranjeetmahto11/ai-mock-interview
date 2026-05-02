@@ -25,4 +25,5 @@ public class ResumeAnalysisResponse {
 
     // Interview ready
     private Long interviewId;
+    private List<QuestionResponse> questions;
 }
