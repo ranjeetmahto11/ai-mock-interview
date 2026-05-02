@@ -178,4 +178,44 @@ public class GroqAiService {
             );
         }
     }
+    // ─────────────────────────────────────────
+// Analyze resume text with Groq AI
+// ─────────────────────────────────────────
+    public String analyzeResume(String resumeText) {
+        String prompt = String.format("""
+        You are an expert HR consultant and technical interviewer.
+        Analyze this resume and respond in EXACTLY this JSON format:
+
+        {
+            "overallFeedback": "<2-3 sentence overall assessment>",
+            "strengths": "<key strengths of the candidate>",
+            "improvements": "<what the candidate should improve>",
+            "careerSuggestion": "<career path suggestion>",
+            "experienceLevel": "<FRESHER or JUNIOR or MID or SENIOR>",
+            "suggestedRole": "<best matching job role>",
+            "skills": ["skill1", "skill2", "skill3"],
+            "questions": [
+                "question1 based on resume",
+                "question2 based on resume",
+                "question3 based on resume",
+                "question4 based on resume",
+                "question5 based on resume"
+            ]
+        }
+
+        Rules:
+        - Return ONLY valid JSON, no extra text
+        - No markdown backticks
+        - Generate exactly 5 interview questions
+        - Questions must be specific to candidate's skills
+        - Skills array should have 5-10 items
+
+        Resume:
+        %s
+        """, resumeText);
+
+        // ← This calls Groq AI automatically!
+        return callOpenAi(prompt);
+    }
+
 }
