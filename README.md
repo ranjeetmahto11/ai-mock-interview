@@ -55,22 +55,8 @@ built with Java Spring Boot 4.
 - MySQL
 - Groq API Key (free at https://console.groq.com)
 
-### Setup
+
 ```bash
-# Clone repo
-git clone https://github.com/ranjeetmahto11/ai-mock-interview.git
-cd ai-mock-interview
-
-# Create MySQL database
-CREATE DATABASE ai_mock_interview;
-
-# Configure application.properties
-cp src/main/resources/application-example.properties \
-   src/main/resources/application.properties
-# Fill in your values
-
-# Run
-mvn spring-boot:run
 ```
 
 ---
