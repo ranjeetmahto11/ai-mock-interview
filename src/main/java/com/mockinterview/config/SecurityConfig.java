@@ -80,7 +80,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                // "http://localhost:3000",
-                "https://ai-mock-interview-frontend-black.vercel.app"
+                "https://mock-mate-frontend-opal.vercel.app"
         ));
 
         // Allow all HTTP methods
