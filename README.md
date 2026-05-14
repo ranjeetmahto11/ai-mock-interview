@@ -6,10 +6,10 @@ built with Java Spring Boot 4.
 ## 🔗 Live Demo
 👉 **[Try the App](https://ai-mock-interview-frontend-black.vercel.app)**
 
-| | Link                                                |
-|---|-----------------------------------------------------|
-| 🌐 Frontend | "https://mock-mate-frontend-opal.vercel.app"        |
-| ⚙️ Backend API | https://ai-mock-interview-73qo.onrender.com         |
+| | Link                                            |
+|---|-------------------------------------------------|
+| 🌐 Frontend | https://mock-mate-frontend-opal.vercel.app      |
+| ⚙️ Backend API | https://ai-mock-interview-73qo.onrender.com     |
 | 📂 Frontend Repo | https://github.com/ranjeetmahto11/MockMate-frontend |
 
 ---
