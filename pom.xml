@@ -13,11 +13,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.mockinterview</groupId>
-    <artifactId>ai-mock-interview</artifactId>
+    <groupId>com.mockmate</groupId>
+    <artifactId>mockmate</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ai-mock-interview</name>
-    <description>AI Mock Interview System</description>
+    <name>mockmate</name>
+    <description>MockMate -  AI Mock Interview System</description>
 
     <properties>
         <java.version>21</java.version>

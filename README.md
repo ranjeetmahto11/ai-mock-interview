@@ -1,4 +1,4 @@
-# 🎯 AI Mock Interview System — Backend
+# 🎯 MockMate — AI Mock Interview System Backend
 
 A full-stack AI-powered mock interview platform backend
 built with Java Spring Boot 4.
@@ -6,11 +6,11 @@ built with Java Spring Boot 4.
 ## 🔗 Live Demo
 👉 **[Try the App](https://ai-mock-interview-frontend-black.vercel.app)**
 
-| | Link |
-|---|---|
-| 🌐 Frontend | https://ai-mock-interview-frontend-black.vercel.app |
-| ⚙️ Backend API | https://ai-mock-interview-73qo.onrender.com |
-| 📂 Frontend Repo | https://github.com/ranjeetmahto11/ai-mock-interview-frontend |
+| | Link                                                |
+|---|-----------------------------------------------------|
+| 🌐 Frontend | "https://mock-mate-frontend-opal.vercel.app"        |
+| ⚙️ Backend API | https://ai-mock-interview-73qo.onrender.com         |
+| 📂 Frontend Repo | https://github.com/ranjeetmahto11/MockMate-frontend |
 
 ---
 
@@ -100,9 +100,3 @@ answers      → id, questionId, answerText, score, aiFeedback
 
 
 
-## 👨‍💻 Author
-
-**Ranjeet**
-- GitHub: [@ranjeetmahto11](https://github.com/ranjeetmahto11)
-
----
